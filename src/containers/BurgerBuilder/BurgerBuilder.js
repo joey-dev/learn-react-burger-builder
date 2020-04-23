@@ -34,7 +34,12 @@ class BurgerBuilder extends Component {
     }
 
     purchasingHandler = () => {
-        this.setState({purchasing: true});
+        if (this.props.isAuthenticated) {
+            this.setState({purchasing: true});
+        } else {
+            this.props.onSetAuthRedirectPath('/checkout');
+            this.props.history.push('/auth');
+        }
     };
 
     purchasingCancelHandler = () => {
@@ -58,17 +63,20 @@ class BurgerBuilder extends Component {
         let burger = this.props.error ? <p>Ingredients cant be loaded</p> : <Spinner/>;
 
         if (this.props.ingredients) {
-            burger = <Aux>
-                <Burger ingredients={this.props.ingredients} />
-                <BuildControls
-                    ingredientAdded={this.props.onIngredientAdded}
-                    ingredientRemoved={this.props.onIngredientRemoved}
-                    disabled={disabledInfo}
-                    purchasable={this.updatePurchasableState(this.props.ingredients)}
-                    ordered={this.purchasingHandler}
-                    price={this.props.totalPrice}
-                />
-            </Aux>;
+            burger =
+                <Aux>
+                    <Burger ingredients={this.props.ingredients} />
+                    <BuildControls
+                        ingredientAdded={this.props.onIngredientAdded}
+                        ingredientRemoved={this.props.onIngredientRemoved}
+                        disabled={disabledInfo}
+                        purchasable={this.updatePurchasableState(this.props.ingredients)}
+                        ordered={this.purchasingHandler}
+                        isAuth={this.props.isAuthenticated}
+                        price={this.props.totalPrice}
+                    />
+                </Aux>
+            ;
 
             orderSummary = <OrderSummary
                 price={this.props.totalPrice}
@@ -94,6 +102,7 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null,
     }
 };
 
@@ -103,6 +112,7 @@ const mapDispatchToProps = dispatch => {
         onIngredientRemoved: (ingredientName) => dispatch(burgerBuilderActions.removeIngredient(ingredientName)),
         onIngredientInit: () => dispatch(burgerBuilderActions.initIngredients()),
         onInitPurchase: () => dispatch(burgerBuilderActions.purchaseInit()),
+        onSetAuthRedirectPath: (path) => dispatch(burgerBuilderActions.setAuthRedirectPath(path))
     }
 };
 
