@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionsTypes';
+import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
@@ -17,7 +17,7 @@ const purchaseBurgerSuccess = (state, action) => {
         orders: state.orders.concat(newOrder),
         purchased: true,
     });
-}
+};
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -32,7 +32,7 @@ const orderReducer = (state = initialState, action) => {
         case actionTypes.FETCH_ORDERS_START:
             return updateObject(state, {loading: true});
         case actionTypes.FETCH_ORDERS_SUCCESS:
-            return updateObject(state, {loading: false, orders: action.orders,});
+            return updateObject(state, {loading: false, orders: action.orders});
         case actionTypes.FETCH_ORDERS_FAIL:
             return updateObject(state, {loading: false});
         default:

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as actionTypes from '../actions/actionsTypes';
+import * as actionTypes from '../actions/actionTypes';
 import authReducer from './auth';
 
 describe('auth reducer', () => {
@@ -31,6 +31,6 @@ describe('auth reducer', () => {
             error: null,
             loading: false,
             authRedirectPath: '/',
-        })
-    })
+        });
+    });
 });

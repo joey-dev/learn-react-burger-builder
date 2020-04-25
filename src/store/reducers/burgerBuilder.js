@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionsTypes';
+import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
@@ -26,7 +26,7 @@ const addIngredient = (state, action) => {
     };
 
     return updateObject(state, updatedState);
-}
+};
 
 const removeIngredient = (state, action) => {
     const ingredients = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
@@ -39,7 +39,7 @@ const removeIngredient = (state, action) => {
     };
 
     return updateObject(state, updatedState);
-}
+};
 
 const setIngredients = (state, action) => {
     return updateObject(
@@ -51,7 +51,7 @@ const setIngredients = (state, action) => {
             building: false,
         },
     );
-}
+};
 
 const burgerBuilderReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -62,7 +62,7 @@ const burgerBuilderReducer = (state = initialState, action) => {
         case actionTypes.SET_INGREDIENTS:
             return setIngredients(state, action);
         case actionTypes.FETCH_INGREDIENTS_FAILED:
-            return updateObject(state, {error: true})
+            return updateObject(state, {error: true});
         default:
             return state;
     }
